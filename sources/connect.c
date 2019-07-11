@@ -13,14 +13,14 @@ bool				establish_connexion(int *sock, char *server, char *service)
 	void *addr;
 	char ipstr[INET6_ADDRSTRLEN], ipver;
 	printf("Connecting to %s : %s\n", server, server_infos->ai_canonname);
+	struct sockaddr_in *ipv4 = (struct sockaddr_in *)server_infos;
 	while (server_infos != NULL)
 	{
-		struct sockaddr_in *ipv4 = (struct sockaddr_in *)server_infos;
 		addr = &(ipv4->sin_addr);
 		ipver = '4';
 		inet_ntop(server_infos->ai_family, addr, ipstr, sizeof ipstr);
 		printf(" IPv%c: %s\n", ipver, ipstr);
-		server_infos = (struct addrinfo	*)server_infos->ai_addr;
+		ipv4 = ipv2->ai_addr;
 	}
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
 		IPPROTO_RAW)) != 0)
