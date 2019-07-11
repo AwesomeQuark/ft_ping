@@ -28,6 +28,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 		return (false);
 	}
 	print_infos(server_infos, server);
+	printf("%d\n", server_infos->ai_family);
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
 		0)) != 0)
 	{
