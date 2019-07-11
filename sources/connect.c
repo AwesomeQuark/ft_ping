@@ -4,7 +4,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 {
 	struct addrinfo	*server_infos;
 
-	if (getaddrinfo(server, service, NULL, &server_infos) != 0
+	if (getaddrinfo(server, service, NULL, &server_infos)
 		|| server_infos == NULL)
 	{
 		perror("getaddrinfo: ");
