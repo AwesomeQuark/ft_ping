@@ -3,6 +3,7 @@
 bool				establish_connexion(int *sock, char *server, char *service)
 {
 	struct addrinfo	*server_infos;
+	struct addrinfo	hints;
 
 	if (getaddrinfo(server, service, NULL, &server_infos) == -1
 		|| server_infos == NULL)
@@ -10,7 +11,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 		perror("getaddrinfo: ");
 		return (false);
 	}
-	if ((*sock = socket(server_infos->ai_family, server_infos->ai_socktype,
+	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
 		server_infos->ai_protocol)) == -1)
 	{
 		perror("socket: ");
