@@ -23,7 +23,7 @@ bool	receive_answer(int socket)
 
 	if (!(read(socket, &packet, sizeof(packet))))
 		return (false);
-	printf ("Answer received\n");
+	printf("Answer received\n");
 	if (!(write(1, &packet, sizeof(packet))))
 		return (false);
 	return (true);
@@ -54,12 +54,12 @@ bool	ping(int opt, char *server)
 	}
 	if (!(send_packet(socket)))
 	{
-		dprintf("failed to send packet\n");
+		dprintf(2, "failed to send packet\n");
 		return (false);
 	};
 	if (!(receive_answer(socket)))
 	{
-		dprintf("failed to receive answer\n");
+		dprintf(2, "failed to receive answer\n");
 		return (false);
 	}
 	return (true);
