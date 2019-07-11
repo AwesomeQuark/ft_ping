@@ -10,7 +10,18 @@ bool				establish_connexion(int *sock, char *server, char *service)
 		perror("getaddrinfo: ");
 		return (false);
 	}
-	printf("Connecting to %s : %s", server, server_infos->ai_canonname);
+	void *addr;
+	char ipstr[INET6_ADDRSTRLEN], ipver;
+	printf("Connecting to %s : %s\n", server, server_infos->ai_canonname);
+	while (server_infos != NULL)
+	{
+		struct sockaddr_in *ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
+		addr = &(ipv4->sin_addr);
+		ipver = '4';
+		inet_ntop(server_infos->ai_family, addr, ipstr, sizeof ipstr);
+		printf(" IPv%c: %s\n", ipver, ipstr);
+		server_infos = server_infos->ai_addr;
+	}
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
 		IPPROTO_RAW)) != 0)
 	{
