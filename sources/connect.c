@@ -13,10 +13,13 @@ static inline void	print_infos(struct addrinfo *server_infos, char *server)
 	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
 	printf("\tIPv4: %s\n", ip);
 	server_infos = server_infos->ai_next;
-	ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
-	addr = &ipv6->sin6_addr;
-	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
-	printf("\tIPv6: %s\n", ip);
+	if (server_infos)
+	{
+		ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
+		addr = &ipv6->sin6_addr;
+		inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
+		printf("\tIPv6: %s\n", ip);
+	}
 }
 
 bool				establish_connexion(int *sock, char *server, char *service)
