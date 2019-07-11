@@ -29,7 +29,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 	}
 	print_infos(server_infos, server);
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
-		server_infos->ai_protocol)) != 0)
+		0)) != 0)
 	{
 		perror("socket: ");
 		freeaddrinfo(server_infos);
