@@ -17,26 +17,29 @@ int		check_sum_icmp(struct icmp p)
 	return (sum);
 }
 
-int		receive_answer(int socket)
+bool	receive_answer(int socket)
 {
 	struct icmp packet;
 
-	read(socket, &packet, sizeof(packet));
+	if (!(read(socket, &packet, sizeof(packet))))
+		return (false);
 	printf ("Answer received\n");
-	write(1, &packet, sizeof(packet));
-	return (1);
+	if (!(write(1, &packet, sizeof(packet))))
+		return (false);
+	return (true);
 }
 
-int		send_packet(int socket)
+bool	send_packet(int socket)
 {
 	struct icmp packet;
 
 	packet.icmp_type = 8;
 	packet.icmp_code = 0;
 	packet.icmp_cksum = check_sum_icmp(packet);
-	write(socket, &packet, sizeof(packet));
+	if (!(write(socket, &packet, sizeof(packet))))
+		return (false);
 	printf("Ping sent\n");
-	return (1);
+	return (true);
 }
 
 bool	ping(int opt, char *server)
@@ -49,7 +52,15 @@ bool	ping(int opt, char *server)
 		dprintf(2, "Failed to establish connection\n");
 		return (false);
 	}
-	send_packet(socket);
-	receive_answer(socket);
+	if (!(send_packet(socket)))
+	{
+		dprintf("failed to send packet\n");
+		return (false);
+	};
+	if (!(receive_answer(socket)))
+	{
+		dprintf("failed to receive answer\n");
+		return (false);
+	}
 	return (true);
 }
