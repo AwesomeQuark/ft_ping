@@ -6,7 +6,7 @@
 #    By: conoel <conoel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/10 21:14:13 by conoel            #+#    #+#              #
-#    Updated: 2019/07/11 06:18:53 by conoel           ###   ########.fr        #
+#    Updated: 2019/07/11 06:33:20 by conoel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,9 @@ fclean:
 	@make fclean -C $(LIB_DIR)
 	@rm -rf $(OBJ_DIR) $(NAME)
 	@echo "\033[31m\033[1m\033[4mCleaning\033[0m\033[31m : Everything\033[0m [$(NAME)]";
+
+sclean: clean
+	@rm -f $(NAME)
 
 ######### COMPILATION #########
 
