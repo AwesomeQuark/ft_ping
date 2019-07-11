@@ -34,6 +34,7 @@ int		send_packet(int socket)
 	packet.icmp_code = 0;
 	packet.icmp_cksum = check_sum_icmp(packet);
 	write(socket, &packet, sizeof(packet));
+	printf("Ping sent\n");
 	return (1);
 }
 
