@@ -24,7 +24,7 @@ bool	receive_answer(int socket)
 	if (!(read(socket, &packet, sizeof(packet))))
 		return (false);
 	printf("Answer received\n");
-	write(1, &packet, sizeof(packet);
+	write(1, &packet, sizeof(packet));
 	return (true);
 }
 
