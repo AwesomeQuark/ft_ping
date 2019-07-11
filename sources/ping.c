@@ -14,6 +14,7 @@ int		check_sum_icmp(struct icmp p)
 		sum += buff[i];
 		i++;
 	}
+	return (sum);
 }
 
 int		receive_answer(int socket)

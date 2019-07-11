@@ -6,7 +6,7 @@
 #    By: conoel <conoel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/10 21:14:13 by conoel            #+#    #+#              #
-#    Updated: 2019/07/10 02:44:11 by conoel           ###   ########.fr        #
+#    Updated: 2019/07/11 06:08:59 by conoel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,8 +61,8 @@ fclean:
 ######### COMPILATION #########
 
 $(NAME): ./auteur $(OBJ_DIR) $(OBJ) $(HEADER)
-	@$(CC) $(FLAGS) $(OBJ) $(LIB) -o $(NAME) -I$(HEADER_DIR) -I$(LIB_DIR) `sdl2-config --cflags --libs`
-	@echo "\033[31m### PING successfully compilated ###"
+	@$(CC) $(FLAGS) $(OBJ) $(LIB) -o $(NAME) -I$(HEADER_DIR) -I$(LIB_DIR)
+	@echo "\033[31m### PING successfully compilated ###\033[0m"
 
 $(OBJ_DIR):
 	@clear
@@ -70,7 +70,7 @@ $(OBJ_DIR):
 	@echo "\n>=========== * \033[32m\033[1mCreating $(NAME) obj dir\033[0m * ===========<";
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
-	@$(CC) $(FLAGS) -c $< -o $@ -I$(HEADER_DIR) -I$(LIB_HEADER) `sdl2-config --cflags`
+	@$(CC) $(FLAGS) -c $< -o $@ -I$(HEADER_DIR) -I$(LIB_HEADER)
 	@printf "\033[32m\033[1m\033[4mCompiling\033[0m\033[32m : %-30s \033[0m [$(NAME)]\n" $@
 
 ./auteur:

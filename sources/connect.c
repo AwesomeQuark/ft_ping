@@ -3,7 +3,6 @@
 bool				establish_connexion(int *sock, char *server, char *service)
 {
 	struct addrinfo	*server_infos;
-	struct addrinfo	hints;
 
 	if (getaddrinfo(server, service, NULL, &server_infos) == -1
 		|| server_infos == NULL)
