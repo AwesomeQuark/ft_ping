@@ -2,18 +2,21 @@
 
 static inline void	print_infos(struct addrinfo *server_infos, char *server)
 {
+	struct sockaddr_in *ipv4;
+	struct sockaddr_in6 *ipv6;
 	void *addr;
-	char ipstr[INET6_ADDRSTRLEN];
+	char ip[INET6_ADDRSTRLEN];
+
 	printf("Connecting to %s : %s\n", server, server_infos->ai_addr->sa_data);
-	struct sockaddr_in *ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
+	ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
 	addr = &(ipv4->sin_addr);
-	inet_ntop(server_infos->ai_family, addr, ipstr, sizeof(ipstr));
-	printf(" IPv4: %s\n", ipstr);
+	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
+	printf("\tIPv4: %s\n", ip);
 	server_infos = server_infos->ai_next;
-	struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
+	ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
 	addr = &(ipv6->sin6_addr);
-	inet_ntop(server_infos->ai_family, addr, ipstr, sizeof(ipstr));
-	printf(" IPv6: %s\n", ipstr);
+	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
+	printf("\tIPv6: %s\n", ip);
 	server_infos = server_infos->ai_next;
 }
 
@@ -28,7 +31,6 @@ bool				establish_connexion(int *sock, char *server, char *service)
 		return (false);
 	}
 	print_infos(server_infos, server);
-	printf("%d\n", server_infos->ai_family);
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
 		0)) != 0)
 	{
