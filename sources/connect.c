@@ -33,15 +33,15 @@ bool				establish_connexion(int *sock, char *server, char *service)
 	}
 	print_infos(server_infos, server);
 	protocol = getprotobyname("icmp");
-	if ((*sock = socket(server_infos->ai_family, SOCK_RAW, protocol->p_proto)) != 0)
+	if ((*sock = socket(server_infos->ai_family, SOCK_RAW, protocol->p_proto)) < 0)
 	{
-		perror("socket: ");
+		perror("socket");
 		freeaddrinfo(server_infos);
 		return (false);
 	}
-	if (connect(*sock, server_infos->ai_addr, server_infos->ai_addrlen) < 0)
+	if (connect(*sock, server_infos->ai_addr, server_infos->ai_addrlen) != 0)
 	{
-		perror("connect: ");
+		perror("connect");
 		freeaddrinfo(server_infos);
 		close(*sock);
 		return (false);
