@@ -22,6 +22,7 @@ int		receive_answer(int socket)
 	struct icmp packet;
 
 	read(socket, &packet, sizeof(packet));
+	printf ("Answer received\n");
 	write(1, &packet, sizeof(packet));
 	return (1);
 }
