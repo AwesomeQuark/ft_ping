@@ -20,7 +20,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 		ipver = '4';
 		inet_ntop(server_infos->ai_family, addr, ipstr, sizeof ipstr);
 		printf(" IPv%c: %s\n", ipver, ipstr);
-		ipv4 = ipv4->sin_addr;
+		ipv4 = &ipv4->sin_addr;
 	}
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
 		IPPROTO_RAW)) != 0)
