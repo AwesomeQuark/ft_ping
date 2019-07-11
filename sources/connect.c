@@ -4,7 +4,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 {
 	struct addrinfo	*server_infos;
 
-	if (getaddrinfo(server, service, NULL, &server_infos) == -1
+	if (getaddrinfo(server, service, NULL, &server_infos) != 0
 		|| server_infos == NULL)
 	{
 		perror("getaddrinfo: ");
@@ -12,7 +12,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 	}
 	printf("Connecting to %s : %s", server, server_infos->ai_canonname);
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
-		IPPROTO_RAW)) == -1)
+		IPPROTO_RAW)) != 0)
 	{
 		perror("socket: ");
 		freeaddrinfo(server_infos);
