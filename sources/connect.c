@@ -3,23 +3,18 @@
 static inline void	print_infos(struct addrinfo *server_infos, char *server)
 {
 	void *addr;
-	char ipstr[INET6_ADDRSTRLEN], ipver;
+	char ipstr[INET6_ADDRSTRLEN];
 	printf("Connecting to %s : %s\n", server, server_infos->ai_addr->sa_data);
-	while (server_infos != NULL)
-	{
-		if (server_infos->ai_family == AF_INET) {
-			struct sockaddr_in *ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
-			addr = &(ipv4->sin_addr);
-			ipver = '4';
-		}
-		else {
-			struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
-			addr = &(ipv6->sin6_addr);
-			ipver = '6';
-		}
-		inet_ntop(server_infos->ai_family, addr, ipstr, sizeof(ipstr));
-		printf(" IPv%c: %s\n", ipver, ipstr);
-		server_infos = server_infos->ai_next;
+	struct sockaddr_in *ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
+	addr = &(ipv4->sin_addr);
+	inet_ntop(server_infos->ai_family, addr, ipstr, sizeof(ipstr));
+	printf(" IPv4: %s\n", ipstr);
+	server_infos = server_infos->ai_next;
+	struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
+	addr = &(ipv6->sin6_addr);
+	inet_ntop(server_infos->ai_family, addr, ipstr, sizeof(ipstr));
+	printf(" IPv6: %s\n", ipstr);
+	server_infos = server_infos->ai_next;
 	}
 }
 
