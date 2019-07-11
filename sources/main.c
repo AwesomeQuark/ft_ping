@@ -13,5 +13,6 @@ int		main(int ac, char **av)
 		return (EXIT_SUCCESS);
 	if (!(ping(opt, av[ac - 1])))
 		return (EXIT_FAILURE);
+	printf("Success\n");
 	return (EXIT_SUCCESS);
 }

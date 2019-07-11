@@ -12,7 +12,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 		return (false);
 	}
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
-		server_infos->ai_protocol)) == -1)
+		IPPROTO_RAW)) == -1)
 	{
 		perror("socket: ");
 		freeaddrinfo(server_infos);
