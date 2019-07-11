@@ -7,7 +7,7 @@ static inline void	print_infos(struct addrinfo *server_infos, char *server)
 	void *addr;
 	char ip[INET6_ADDRSTRLEN];
 
-	printf("Connecting to %s : %s\n", server, server_infos->ai_addr->sa_data);
+	printf("Connecting to %s : %s\n", server, server_infos->ai_canonname);
 	ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
 	addr = &ipv4->sin_addr;
 	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
