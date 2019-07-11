@@ -9,15 +9,14 @@ static inline void	print_infos(struct addrinfo *server_infos, char *server)
 
 	printf("Connecting to %s : %s\n", server, server_infos->ai_addr->sa_data);
 	ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
-	addr = &(ipv4->sin_addr);
+	addr = &ipv4->sin_addr;
 	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
 	printf("\tIPv4: %s\n", ip);
 	server_infos = server_infos->ai_next;
 	ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
-	addr = &(ipv6->sin6_addr);
+	addr = &ipv6->sin6_addr;
 	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
 	printf("\tIPv6: %s\n", ip);
-	server_infos = server_infos->ai_next;
 }
 
 bool				establish_connexion(int *sock, char *server, char *service)
