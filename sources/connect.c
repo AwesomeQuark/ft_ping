@@ -15,7 +15,6 @@ static inline void	print_infos(struct addrinfo *server_infos, char *server)
 	inet_ntop(server_infos->ai_family, addr, ipstr, sizeof(ipstr));
 	printf(" IPv6: %s\n", ipstr);
 	server_infos = server_infos->ai_next;
-	}
 }
 
 bool				establish_connexion(int *sock, char *server, char *service)
