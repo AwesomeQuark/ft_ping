@@ -4,7 +4,7 @@ static inline void	print_infos(struct addrinfo *server_infos, char *server)
 {
 	void *addr;
 	char ipstr[INET6_ADDRSTRLEN], ipver;
-	printf("Connecting to %s : %s\n", server, server_infos->ai_canonname);
+	printf("Connecting to %s : %s\n", server, server_infos->ai_addr->sa_data);
 	while (server_infos != NULL)
 	{
 		if (server_infos->ai_family == AF_INET) {
