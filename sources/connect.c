@@ -10,6 +10,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 		perror("getaddrinfo: ");
 		return (false);
 	}
+	printf("Connecting to %s : %x", server, server_infos->ai_addr);
 	if ((*sock = socket(server_infos->ai_family, SOCK_RAW,
 		IPPROTO_RAW)) == -1)
 	{
