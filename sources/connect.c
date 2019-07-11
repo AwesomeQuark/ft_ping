@@ -27,7 +27,7 @@ bool				establish_connexion(int *sock, char *server, char *service)
 	if (getaddrinfo(server, service, NULL, &server_infos) != 0
 		|| server_infos == NULL)
 	{
-		perror("getaddrinfo: ");
+		dprintf("Server not found\n")
 		return (false);
 	}
 	print_infos(server_infos, server);
