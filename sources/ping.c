@@ -52,12 +52,12 @@ bool	ping(int opt, char *server)
 		dprintf(2, "Failed to establish connection\n");
 		return (false);
 	}
-	if (!(send_packet(socket)))
+	if (send_packet(socket) == false)
 	{
 		dprintf(2, "failed to send packet\n");
 		return (false);
 	};
-	if (!(receive_answer(socket)))
+	if (receive_answer(socket) == false)
 	{
 		dprintf(2, "failed to receive answer\n");
 		return (false);
