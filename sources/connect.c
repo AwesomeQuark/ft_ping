@@ -1,6 +1,6 @@
 #include "ft_ping.h"
 
-static inline void	print_info(struct addrinfo *server_infos, char *server)
+static inline void	print_infos(struct addrinfo *server_infos, char *server)
 {
 	void *addr;
 	char ipstr[INET6_ADDRSTRLEN], ipver;
