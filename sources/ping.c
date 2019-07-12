@@ -10,10 +10,7 @@ int		check_sum_icmp(struct icmp p)
 	i = 0;
 	ft_memcpy(buff, &p, sizeof(p));
 	while (buff[i])
-	{
-		sum += buff[i];
-		i++;
-	}
+		sum += buff[i++];
 	return (sum);
 }
 
@@ -24,7 +21,7 @@ bool	receive_answer(int socket)
 	if (!(read(socket, &packet, sizeof(packet))))
 		return (false);
 	printf("Answer received\n");
-	write(1, &packet, sizeof(packet));
+	printf("\tType : %d\n\tCode : %d\n\tCheckSum : %d\n", packet.icmp_type, packet.icmp_code, packet.icmp_cksum);
 	return (true);
 }
 
@@ -32,12 +29,14 @@ bool	send_packet(int socket)
 {
 	struct icmp packet;
 
+	ft_bzero(&packet, sizeof(packet));
 	packet.icmp_type = 8;
 	packet.icmp_code = 0;
 	packet.icmp_cksum = check_sum_icmp(packet);
 	if (!(write(socket, &packet, sizeof(packet))))
 		return (false);
 	printf("Ping sent\n");
+	printf("\tType : %d\n\tCode : %d\n\tCheckSum : %d\n", packet.icmp_type, packet.icmp_code, packet.icmp_cksum);
 	return (true);
 }
 
