@@ -11,6 +11,7 @@
 # include <netinet/in.h> 
 # include <netinet/ip_icmp.h>
 # include <netinet/ip.h>
+#include <time.h>
 # include "haflib.h"
 
 # define USAGE "Usage: ./ft_ping [-abcdefghijklmnopqrstuvwxyz] [server]\n"
@@ -20,7 +21,7 @@
 
 
 bool	establish_connexion(int *sock, char *server, char *service);
-int		get_opt(int ac, char **av, char *set);
+int	get_opt(int ac, char **av, char *set);
 bool	ping(int opt,  char *server);
 
 #endif

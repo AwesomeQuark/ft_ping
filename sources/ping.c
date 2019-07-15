@@ -2,47 +2,59 @@
 
 int		check_sum_icmp(struct icmp p)
 {
-	char	buff[512];
-	size_t	i;
-	int		sum;
+	unsigned short	buff[512];
+	size_t		i;
+	unsigned int	sum;
+	unsigned short	result;
 
 	sum = 0;
 	i = 0;
 	ft_memcpy(buff, &p, sizeof(p));
 	while (buff[i])
-		sum += buff[i++];
+		sum += buff[i++]; 
+	sum = (sum >> 16) + (sum & 0xFFFF); 
+	sum += (sum >> 16); 
+	result = ~sum; 
 	return (sum);
 }
 
-bool	receive_answer(int socket)
+clock_t	receive_answer(int socket)
 {
-	struct icmp packet;
+	struct icmp	packet;
+	clock_t		time_;
 
 	if (!(read(socket, &packet, sizeof(packet))))
-		return (false);
+		return (0);
+	time_ = clock();
 	printf("Answer received\n");
 	printf("\tType : %d\n\tCode : %d\n\tCheckSum : %d\n", packet.icmp_type, packet.icmp_code, packet.icmp_cksum);
-	return (true);
+	return (time_);
 }
 
-bool	send_packet(int socket)
+clock_t	send_packet(int socket)
 {
-	struct icmp packet;
+	struct icmp	packet;
+	clock_t		time_;
+	int	ttl_val = 64;
 
+	setsockopt(socket, SOL_SOCKET, IP_TTL, &ttl_val, sizeof(ttl_val));
 	ft_bzero(&packet, sizeof(packet));
 	packet.icmp_type = 8;
 	packet.icmp_code = 0;
 	packet.icmp_cksum = check_sum_icmp(packet);
 	if (!(write(socket, &packet, sizeof(packet))))
-		return (false);
+		return (0);
+	time_ = clock();
 	printf("Ping sent\n");
 	printf("\tType : %d\n\tCode : %d\n\tCheckSum : %d\n", packet.icmp_type, packet.icmp_code, packet.icmp_cksum);
-	return (true);
+	return (time_);
 }
 
 bool	ping(int opt, char *server)
 {
-	int				socket;
+	int	socket;
+	clock_t	start;
+	clock_t	end;
 
 	(void)opt;
 	if (establish_connexion(&socket, server, "http") == false)
@@ -50,15 +62,16 @@ bool	ping(int opt, char *server)
 		dprintf(2, "Failed to establish connection\n");
 		return (false);
 	}
-	if (send_packet(socket) == false)
+	if ((start = send_packet(socket)) == 0)
 	{
 		dprintf(2, "failed to send packet\n");
 		return (false);
 	};
-	if (receive_answer(socket) == false)
+	if ((end = receive_answer(socket)) == 0)
 	{
 		dprintf(2, "failed to receive answer\n");
 		return (false);
 	}
+	printf("Time : %ld ms\n", end - start);
 	return (true);
 }

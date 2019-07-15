@@ -25,17 +25,15 @@ static inline void	print_infos(struct addrinfo *server_infos, char *server)
 bool				establish_connexion(int *sock, char *server, char *service)
 {
 	struct addrinfo	*server_infos;
-	struct protoent *protocol;
 
 	if (getaddrinfo(server, service, NULL, &server_infos) != 0
-		|| server_infos == NULL)
+			|| server_infos == NULL)
 	{
 		dprintf(2, "Server not found\n");
 		return (false);
 	}
 	print_infos(server_infos, server);
-	protocol = getprotobyname("icmp");
-	if ((*sock = socket(server_infos->ai_family, SOCK_RAW, protocol->p_proto)) < 0)
+	if ((*sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{
 		perror("socket");
 		freeaddrinfo(server_infos);
