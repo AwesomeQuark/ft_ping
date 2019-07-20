@@ -1,38 +1,36 @@
 #include "ft_ping.h"
 
-static inline void	print_infos(struct addrinfo *server_infos, char *server)
+static inline void	print_infos(struct addrinfo *server_infos, char *server, char *ip_)
 {
-	struct sockaddr_in *ipv4;
-	struct sockaddr_in6 *ipv6;
-	void *addr;
-	char ip[INET6_ADDRSTRLEN];
+	struct sockaddr_in	*ipv4;
+	char			ip[INET6_ADDRSTRLEN];
+	struct in_addr		*addr;
+	char			tmp_host[64];
 
-	printf("Connecting to %s : %s\n", server, server_infos->ai_canonname);
+	
 	ipv4 = (struct sockaddr_in *)server_infos->ai_addr;
 	addr = &ipv4->sin_addr;
 	inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
-	printf("\tIPv4: %s\n", ip);
-	server_infos = server_infos->ai_next;
-	if (server_infos)
-	{
-		ipv6 = (struct sockaddr_in6 *)server_infos->ai_addr;
-		addr = &ipv6->sin6_addr;
-		inet_ntop(server_infos->ai_family, addr, ip, sizeof(ip));
-		printf("\tIPv6: %s\n", ip);
-	}
+	printf("PING %s%s%s (%s%s%s) 56(84) bytes of data.\n", GREEN, server, DEF, GREEN, ip, DEF);
+	ft_memcpy(ip_, &ip, sizeof(ip));
+	ft_bzero(tmp_host, 64);
+	if (getnameinfo(server_infos->ai_addr, sizeof(*server_infos->ai_addr), (char *)&tmp_host, 64, NULL, 0, 0) != 0)
+		perror("getnameinfo");
+	else
+		ft_memcpy(server, tmp_host, 64);
 }
 
-bool				establish_connexion(int *sock, char *server, char *service)
+bool				establish_connexion(int *sock, char *server, char *service, char *ip)
 {
 	struct addrinfo	*server_infos;
 
 	if (getaddrinfo(server, service, NULL, &server_infos) != 0
 			|| server_infos == NULL)
 	{
-		dprintf(2, "Server not found\n");
+		dprintf(2, "ft_ping: unknown host %s\n", server);
 		return (false);
 	}
-	print_infos(server_infos, server);
+	print_infos(server_infos, server, ip);
 	if ((*sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{
 		perror("socket");

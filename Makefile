@@ -13,10 +13,11 @@
 NAME = ft_ping
 AUTEUR = "conoel"
 
-SRC_NAME =	main.c\
+SRC_NAME =		main.c\
 			get_opt.c\
 			connect.c\
-			ping.c
+			ping.c\
+			statistics.c
 
 SRC_DIR = ./sources/
 SRC = ${addprefix $(SRC_DIR), $(SRC_NAME)}
@@ -34,7 +35,7 @@ LIB_DIR = ./haflib/
 LIB_HEADER = ./haflib/includes/
 LIB = ${addprefix $(LIB_DIR), $(LIB_NAME)}
 
-FLAGS = -Wall -Werror -Wextra -Ofast #-g3 -fsanitize=address
+FLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 CC = clang
 
 #################################################################################
