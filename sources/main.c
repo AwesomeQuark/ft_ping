@@ -16,6 +16,5 @@ int		main(int ac, char **av)
 	ft_strncpy((char *)&server, av[ac - 1], 64);
 	if (!(ping(opt, (char *)&server)))
 		return (EXIT_FAILURE);
-	printf("Success\n");
 	return (EXIT_SUCCESS);
 }
