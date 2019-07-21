@@ -49,14 +49,12 @@ unsigned long	receive_answer(int socket)
 
 	ft_bzero(&buff, sizeof(struct ip) + sizeof(struct icmp));
 	ft_bzero(&t, sizeof(t));
-	if (!(recv(socket, &buff, sizeof(struct ip) + sizeof(struct icmp), EAGAIN)))
-		return (t.tv_sec * 1000 + t.tv_usec);
+	if (recv(socket, &buff, sizeof(struct ip) + sizeof(struct icmp), 0) < 0)
+		return (0);
 	t = get_time();
 	ft_memcpy(&packet, &buff[sizeof(struct ip)], sizeof(struct icmp));
 	if (packet.icmp_type != 0 || packet.icmp_code != 0)
-	{
-		printf("Fail !\n");
-	}
+		return (0);
 	return (t.tv_sec * 1000 + t.tv_usec);
 }
 
@@ -64,9 +62,11 @@ unsigned long	send_packet(int socket)
 {
 	struct icmp	packet;
 	struct timeval	t;
-	int	ttl_val = 64;
+	struct timeval timeout;
 
-	setsockopt(socket, SOL_SOCKET, IP_TTL, &ttl_val, sizeof(ttl_val));
+	timeout.tv_sec = 0;
+	timeout.tv_usec = 1000;
+	setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 	ft_bzero(&packet, sizeof(packet));
 	ft_bzero(&t, sizeof(t));
 	packet.icmp_type = 8;
@@ -74,7 +74,7 @@ unsigned long	send_packet(int socket)
 	packet.icmp_cksum = ip_checksum(&packet, sizeof(packet));
 	t = get_time();
 	if (!(send(socket, &packet, sizeof(packet), 0)))
-		return (t.tv_sec * 1000 + t.tv_usec);
+		return (0);
 	return (t.tv_sec * 1000 + t.tv_usec);
 }
 
@@ -87,27 +87,35 @@ void	ping_loop(int opt, int socket, char *server, char *ip)
 	stats->time = get_time().tv_sec * 1000  + get_time().tv_usec;
 	while (1)
 	{
-		interval = 930000;
+		interval = 0;
 		stats->paquet_counter++;
 		if ((start = send_packet(socket)) == 0)
 		{
-			dprintf(2, "failed to send packet\n");
+			if (!(opt & A_OPT))
+				dprintf(2, "failed to send packet\n");
 			stats->loss++;
 		}
 		if ((end = receive_answer(socket)) == 0)
 		{
-			dprintf(2, "failed to receive answer\n");
+			if (!(opt & A_OPT))
+				dprintf(2, "failed to receive answer\n");
 			stats->loss++;
 		}
 		else
 		{
+			if (opt & A_OPT)
+			{
+				printf("1");
+				exit(EXIT_SUCCESS);
+			}
 			interval = end > start ? end - start : start - end;
 			printf("64 bytes from %s%s%s (%s%s%s): icmp_seq=%s%d%s ttl=64 time=%s%.2f%s ms\n", YELLOW, server, DEF, YELLOW, ip, DEF, GREEN, stats->paquet_counter, DEF, RED, (float)interval / 100, DEF);
-			if (opt & A_OPT)
-				exit(EXIT_SUCCESS);
 		}
 		if (opt & A_OPT)
+		{
+			printf("0");
 			exit(EXIT_FAILURE);
+		}
 		if (!(opt &S_OPT))
 			usleep(930000 - interval);
 	}
@@ -128,8 +136,12 @@ bool	ping(int opt, char *server)
 	char	ip[INET6_ADDRSTRLEN];
 
 	(void)opt;
-	if (establish_connexion(&socket, server, "http", (char *)&ip) == false)
+	if (establish_connexion(opt, &socket, server, "http", (char *)&ip) == false)
+	{
+		if (opt & A_OPT)
+			printf("0");
 		return (false);
+	}
 	if (init_stats(server) == false)
 		return (false);
 	ping_loop(opt, socket, server, ip);

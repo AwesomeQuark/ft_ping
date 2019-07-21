@@ -34,7 +34,7 @@ typedef struct	s_statistic
 
 extern t_statistic *stats;
 
-bool	establish_connexion(int *sock, char *server, char *service, char *ip);
+bool	establish_connexion(int opt, int *sock, char *server, char *service, char *ip);
 int	get_opt(int ac, char **av, char *set);
 bool	ping(int opt,  char *server);
 void	wrapper(void);
