@@ -49,7 +49,7 @@ unsigned long	receive_answer(int socket)
 
 	ft_bzero(&buff, sizeof(struct ip) + sizeof(struct icmp));
 	ft_bzero(&t, sizeof(t));
-	if (!(read(socket, &buff, sizeof(struct ip) + sizeof(struct icmp))))
+	if (!(recv(socket, &buff, sizeof(struct ip) + sizeof(struct icmp), EAGAIN)))
 		return (t.tv_sec * 1000 + t.tv_usec);
 	t = get_time();
 	ft_memcpy(&packet, &buff[sizeof(struct ip)], sizeof(struct icmp));
