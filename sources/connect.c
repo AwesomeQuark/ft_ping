@@ -30,7 +30,7 @@ bool				establish_connexion(int opt, int *sock, char *server, char *ip)
 	{
 		if (!(opt & A_OPT))
 			dprintf(2, "ft_ping: unknown host %s\n", server);
-		return (false);
+		return (false); 
 	}
 	print_infos(opt, server_infos, server, ip);
 	if ((*sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
