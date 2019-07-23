@@ -25,13 +25,13 @@ void	ping_loop(int opt, int socket, char *ip)
 		{
 			if (!(opt & A_OPT))
 				dprintf(2, "failed to send packet\n");
-			stats->loss++;
+			stats.loss++;
 		}
 		if ((end = receive_answer(socket)) == 0)
 		{
 			if (!(opt & A_OPT))
 				dprintf(2, "failed to receive answer\n");
-			stats->loss++;
+			stats.loss++;
 		}
 		else
 		{
@@ -41,8 +41,7 @@ void	ping_loop(int opt, int socket, char *ip)
 				exit(EXIT_SUCCESS);
 			}
 			interval = end - start;
-			printf("64 bytes from %s%s%s (%s%s%s): icmp_seq=%s%d%s ttl=64 time=%s%.2f%s ms\n", YELLOW, server, DEF, YELLOW, ip, DEF, GREEN, stats->paquet_counter, DEF, RED, (float)interval / 100, DEF);
-			stats->paquet_counter++;
+			printf("64 bytes from %s%s%s (%s%s%s): icmp_seq=%s%d%s ttl=64 time=%s%.2f%s ms\n", YELLOW, stats.hostname, DEF, YELLOW, ip, DEF, GREEN, stats.paquet_counter, DEF, RED, (float)interval / 100, DEF);			stats.paquet_counter++;
 		}
 		if (opt & A_OPT)
 		{
