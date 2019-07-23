@@ -21,11 +21,11 @@ static inline void	print_infos(int opt, struct addrinfo *server_infos, char *ser
 		ft_memcpy(server, tmp_host, 64);
 }
 
-bool				establish_connexion(int opt, int *sock, char *server, char *service, char *ip)
+bool				establish_connexion(int opt, int *sock, char *server, char *ip)
 {
 	struct addrinfo	*server_infos;
 
-	if (getaddrinfo(server, service, NULL, &server_infos) != 0
+	if (getaddrinfo(server, "http", NULL, &server_infos) != 0
 			|| server_infos == NULL)
 	{
 		if (!(opt & A_OPT))

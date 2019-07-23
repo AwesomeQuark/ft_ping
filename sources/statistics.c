@@ -1,25 +1,17 @@
 #include "ft_ping.h"
 
-struct timeval	get_time(void);
-
-t_statistic *stats = NULL;
-
-void	statistics(int signo)
+__attribute__((destructor))
+void	statistics(__unused int signo)
 {
-	(void)signo;
-	struct timeval	t;
-	unsigned long	tot_time;
-
-	t = get_time();
-	tot_time = stats->time - (t.tv_sec * 1000 + t.tv_usec);
+	stats->init_time = get_time() - stats->init_time;
 	printf("\n--- %s ping statistics ---\n", stats->hostname);
-	printf ("%d packet transmitted, %d received, %d%% packet loss, time %ld ms\n", stats->paquet_counter, stats->paquet_counter - stats->loss, stats->loss / stats->paquet_counter * 100, tot_time);
+	printf ("%d packet transmitted, %d received, %d%% packet loss, time %ld ms\n", stats->paquet_counter, stats->paquet_counter - stats->loss, stats->loss / stats->paquet_counter * 100, stats->init_time);
 	printf("rtt min/avg/max/mdev = x/x/x/x ms\n");
 	free(stats);
 	exit(EXIT_SUCCESS);
 }
 
-void	wrapper(void)
+void	sig_wrapper(void)
 {
 	int	i;
 
