@@ -21,6 +21,7 @@ int		main(int ac, char **av)
 		dprintf(2, USAGE);
 		return (EXIT_SUCCESS);
 	}
+	sig_handler();
 	if ((opt = get_opt(ac, av, EXISTING_OPT)) == -1)
 		return (EXIT_SUCCESS);
 	init_stats(av[ac - 1]);

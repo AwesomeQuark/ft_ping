@@ -19,7 +19,7 @@
 # define USAGE "Usage: ./ft_ping [-v] [server]\n\
 \t-s: No coldown between those pings hey\n\
 \t-a: Only one request, and return only 1 on success, and 0 on failure\n"
-# define EXISTING_OPT "abcdefghijklmnopqrstuvwxyz"
+# define EXISTING_OPT "as"
 # define A_OPT 2
 # define B_OPT 4
 # define C_OPT 8
@@ -51,12 +51,13 @@ typedef struct	s_statistic
 
 extern t_statistic stats;
 
-bool			establish_connexion(int opt, int *sock, char *service, char *ip);
-int			get_opt(int ac, char **av, char *set);
-void			ping_loop(int opt, int socket, char *ip);
+bool				establish_connexion(int opt, int *sock, char *service, char *ip);
+int					get_opt(int ac, char **av, char *set);
+void				ping_loop(int opt, int socket, char *ip);
 unsigned long		get_time(void);
-void			statistics(int signo);
+void				statistics(int signo);
 unsigned long		send_packet(int socket);
 unsigned long		receive_answer(int socket);
+void				sig_handler(void);
 
 #endif
