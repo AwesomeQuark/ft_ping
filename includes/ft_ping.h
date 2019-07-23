@@ -52,9 +52,11 @@ typedef struct	s_statistic
 extern t_statistic stats;
 
 bool			establish_connexion(int opt, int *sock, char *service, char *ip);
-int				get_opt(int ac, char **av, char *set);
+int			get_opt(int ac, char **av, char *set);
 void			ping_loop(int opt, int socket, char *ip);
-void			sig_wrapper(void);
-unsigned long	get_time(void);
-void			statistics(__unused int signo);
+unsigned long		get_time(void);
+void			statistics(int signo);
+unsigned long		send_packet(int socket);
+unsigned long		receive_answer(int socket);
+
 #endif

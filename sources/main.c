@@ -10,7 +10,6 @@ static inline void	init_stats(char *server)
 	stats.init_time = get_time();
 }
 
-__attribute__((noreturn))
 int		main(int ac, char **av)
 {
 	int			opt;
@@ -20,17 +19,16 @@ int		main(int ac, char **av)
 	if (ac < 2)
 	{
 		dprintf(2, USAGE);
-		exit(EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	}
-	sig_wrapper();
 	if ((opt = get_opt(ac, av, EXISTING_OPT)) == -1)
-		exit(EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	init_stats(av[ac - 1]);
 	if (establish_connexion(opt, &socket, stats.hostname, (char *)&ip) == false)
 	{
 		if (opt & A_OPT)
 			printf("0");
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	ping_loop(opt, socket, ip);
 }

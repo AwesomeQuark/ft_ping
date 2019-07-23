@@ -17,7 +17,9 @@ SRC_NAME =		main.c\
 			get_opt.c\
 			connect.c\
 			ping.c\
-			statistics.c
+			statistics.c\
+			send_ping.c\
+			receive_ping.c
 
 SRC_DIR = ./sources/
 SRC = ${addprefix $(SRC_DIR), $(SRC_NAME)}
