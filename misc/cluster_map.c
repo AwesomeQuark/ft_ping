@@ -8,33 +8,17 @@
 static inline char	exceptions(int e, int r, int *p)
 {
 	if ((r == 1 || r == 13) && *p == 8)
-		write(1, "         ", 9);
+		write(1, "           ", 11);
 	else if ((r == 1 || r == 13) && *p == 15)
 	{
 		*p = 23;
 		return (1);
 	}
-	else if ((r == 3 || r == 6 || r == 9) && (*p == 8 || *p == 16))
+	else if ((r != 13 && r != 1) && (*p == 8 || *p == 17)) // Passages centraux
 		write(1, " ", 1);
-	else if ((r == 3 || r == 6 || r == 9) && *p == 22)
-	{
-		*p = 23;
-		return (1);
-	}
-	else if (r == 8 && *p == 7)
-		write(1, "  ", 2);
-	else if (r == 8 && *p == 15)
-		write(1, " ", 1);
-	else if (r == 8 && *p == 21)
-	{
-		*p = 23;
-		return (1);
-	}
-//	else if (*p == 8 || *p == 15)
-//		write(1, " ", 1);
 	return (0);
+		
 }
-
 static inline void	call_ping(char *host)
 {
 	char	command[64];

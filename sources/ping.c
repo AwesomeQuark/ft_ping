@@ -88,7 +88,6 @@ void	ping_loop(int opt, int socket, char *server, char *ip)
 	while (1)
 	{
 		interval = 0;
-		stats->paquet_counter++;
 		if ((start = send_packet(socket)) == 0)
 		{
 			if (!(opt & A_OPT))
@@ -108,8 +107,9 @@ void	ping_loop(int opt, int socket, char *server, char *ip)
 				printf("1");
 				exit(EXIT_SUCCESS);
 			}
-			interval = end > start ? end - start : start - end;
+			interval = end - start;
 			printf("64 bytes from %s%s%s (%s%s%s): icmp_seq=%s%d%s ttl=64 time=%s%.2f%s ms\n", YELLOW, server, DEF, YELLOW, ip, DEF, GREEN, stats->paquet_counter, DEF, RED, (float)interval / 100, DEF);
+			stats->paquet_counter++;
 		}
 		if (opt & A_OPT)
 		{
@@ -126,6 +126,7 @@ bool	init_stats(char *server)
 	if (!(stats = malloc(sizeof(t_statistic))))
 		return (false);
 	ft_bzero(stats, sizeof(t_statistic));
+	stats->paquet_counter = 1;
 	ft_strncpy(stats->hostname, server, 64);
 	return (true);
 }
