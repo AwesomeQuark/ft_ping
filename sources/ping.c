@@ -27,7 +27,7 @@ void	ping_loop(int opt, int socket, char *ip)
 				dprintf(2, "failed to send packet\n");
 			stats.loss++;
 		}
-		if ((end = receive_answer(socket)) == 0)
+/*		if ((end = receive_answer(socket)) == 0)
 		{
 			if (!(opt & A_OPT))
 				dprintf(2, "failed to receive answer\n");
@@ -49,7 +49,7 @@ void	ping_loop(int opt, int socket, char *ip)
 			exit(EXIT_FAILURE);
 		}
 		if (!(opt &S_OPT))
-			usleep(930000 - interval);
+			usleep(930000 - interval);*/
 	}
 }
 

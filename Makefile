@@ -37,7 +37,7 @@ LIB_DIR = ./haflib/
 LIB_HEADER = ./haflib/includes/
 LIB = ${addprefix $(LIB_DIR), $(LIB_NAME)}
 
-FLAGS = -Wall -Werror -Wextra -Ofast#-g3 -fsanitize=address
+#FLAGS = -Wall -Werror -Wextra -Ofast#-g3 -fsanitize=address
 CC = clang
 
 #################################################################################

@@ -32,6 +32,12 @@ static inline uint16_t ip_checksum(void* vdata, size_t length)
 
 unsigned long	send_packet(int socket)
 {
+	send(socket, "Anne Frank", 12, 0);
+	return (get_time());
+}
+/*
+unsigned long	send_packet(int socket)
+{
 	struct icmp	packet;
 	struct timeval timeout;
 
@@ -45,4 +51,4 @@ unsigned long	send_packet(int socket)
 	if (!(send(socket, &packet, sizeof(packet), 0)))
 		return (0);
 	return (get_time());
-}
+}*/
