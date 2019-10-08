@@ -29,7 +29,8 @@ OBJ_DIR = ./objects/
 OBJ = ${addprefix $(OBJ_DIR), $(OBJ_NAME)}
 
 HEADER_DIR = ./includes/
-HEADER_NAME = ft_ping.h
+HEADER_NAME = ft_ping.h\
+	      conf.h
 HEADER = ${addprefix $(HEADER_DIR), $(HEADER_NAME)}
 
 LIB_NAME = haflib.a
@@ -37,7 +38,7 @@ LIB_DIR = ./haflib/
 LIB_HEADER = ./haflib/includes/
 LIB = ${addprefix $(LIB_DIR), $(LIB_NAME)}
 
-FLAGS = -Wall -Werror -Wextra -Ofast#-g3 -fsanitize=address
+#FLAGS = -Wall -Werror -Wextra -Ofast#-g3 -fsanitize=address
 CC = clang
 
 #################################################################################

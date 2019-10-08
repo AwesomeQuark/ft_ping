@@ -11,22 +11,26 @@ unsigned long	get_time(void)
 	return (tv.tv_sec * 1000000 + tv.tv_usec);
 }
 
-__attribute__((noreturn))
+//__attribute__((noreturn))
 void	ping_loop(int opt, int socket, char *ip)
 {
 	unsigned long	start;
 	unsigned long	end;
 	long		interval;
 
+#ifdef LOOP
 	while (1)
 	{
+#endif
 		interval = 0;
+		end = 0;
 		if ((start = send_packet(socket)) == 0)
 		{
 			if (!(opt & A_OPT))
 				dprintf(2, "failed to send packet\n");
 			stats.loss++;
 		}
+#ifdef VERIFY 
 		if ((end = receive_answer(socket)) == 0)
 		{
 			if (!(opt & A_OPT))
@@ -35,6 +39,7 @@ void	ping_loop(int opt, int socket, char *ip)
 		}
 		else
 		{
+#endif
 			if (opt & A_OPT)
 			{
 				printf("1");
@@ -42,7 +47,10 @@ void	ping_loop(int opt, int socket, char *ip)
 			}
 			interval = end - start;
 			printf("64 bytes from %s%s%s (%s%s%s): icmp_seq=%s%d%s ttl=64 time=%s%.2f%s ms\n", YELLOW, stats.hostname, DEF, YELLOW, ip, DEF, GREEN, stats.paquet_counter, DEF, RED, (float)interval / 100, DEF);			stats.paquet_counter++;
+			stats.paquet_counter++;
+#ifdef VERIFY
 		}
+#endif
 		if (opt & A_OPT)
 		{
 			printf("0");
@@ -50,6 +58,8 @@ void	ping_loop(int opt, int socket, char *ip)
 		}
 		if (!(opt &S_OPT))
 			usleep(930000 - interval);
+#ifdef LOOP
 	}
+#endif
 }
 

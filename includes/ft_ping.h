@@ -16,9 +16,12 @@
 # include <signal.h>
 # include "haflib.h"
 
+# include "conf.h"
+
 # define USAGE "Usage: ./ft_ping [-v] [server]\n\
 \t-s: No coldown between those pings hey\n\
 \t-a: Only one request, and return only 1 on success, and 0 on failure\n"
+
 # define EXISTING_OPT "as"
 # define A_OPT 2
 # define B_OPT 4

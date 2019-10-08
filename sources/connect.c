@@ -33,7 +33,7 @@ bool				establish_connexion(int opt, int *sock, char *server, char *ip)
 		return (false); 
 	}
 	print_infos(opt, server_infos, server, ip);
-	if ((*sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	if ((*sock = socket(AF_INET, SOCK_RAW, PROTOCOL)) < 0)
 	{
 		if (!(opt & A_OPT))
 			perror("socket");

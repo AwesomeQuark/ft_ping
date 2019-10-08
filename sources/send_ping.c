@@ -39,10 +39,10 @@ unsigned long	send_packet(int socket)
 	timeout.tv_usec = 1000;
 	setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 	ft_bzero(&packet, sizeof(packet));
-	packet.icmp_type = 8;
-	packet.icmp_code = 0;
+	packet.icmp_type = ICMP_TYPE;
+	packet.icmp_code = ICMP_CODE;
 	packet.icmp_cksum = ip_checksum(&packet, sizeof(packet));
 	if (!(send(socket, &packet, sizeof(packet), 0)))
 		return (0);
 	return (get_time());
-}
+} 
