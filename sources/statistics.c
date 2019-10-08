@@ -19,6 +19,7 @@ void	sig_handler(void)
 	{
 		if (i != SIGBUS && i != SIGSEGV && i != SIGFPE && i != SIGTSTP && i != SIGCONT)
 			signal(i, statistics);
+		i++;
 	}
 }
 
