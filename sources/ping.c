@@ -11,7 +11,7 @@ unsigned long	get_time(void)
 	return (tv.tv_sec * 1000000 + tv.tv_usec);
 }
 
-//__attribute__((noreturn))
+__attribute__((noreturn))
 void	ping_loop(int opt, int socket, char *ip)
 {
 	unsigned long	start;
@@ -46,8 +46,11 @@ void	ping_loop(int opt, int socket, char *ip)
 				exit(EXIT_SUCCESS);
 			}
 			interval = end - start;
+#ifdef OUTPUT
 			printf("64 bytes from %s%s%s (%s%s%s): icmp_seq=%s%d%s ttl=64 time=%s%.2f%s ms\n", YELLOW, stats.hostname, DEF, YELLOW, ip, DEF, GREEN, stats.paquet_counter, DEF, RED, (float)interval / 100, DEF);			stats.paquet_counter++;
+#else
 			stats.paquet_counter++;
+#endif
 #ifdef VERIFY
 		}
 #endif
