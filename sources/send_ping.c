@@ -44,5 +44,5 @@ unsigned long	send_packet(int socket)
 	packet.icmp_cksum = ip_checksum(&packet, sizeof(packet));
 	if (!(send(socket, &packet, sizeof(packet), 0)))
 		return (0);
-	return (get_time());
+	return (1);
 } 

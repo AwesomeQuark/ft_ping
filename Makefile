@@ -10,16 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_ping
+NAME = spam
 AUTEUR = "conoel"
 
-SRC_NAME =		main.c\
-			get_opt.c\
+SRC_NAME =	main.c\
 			connect.c\
 			ping.c\
 			statistics.c\
 			send_ping.c\
-			receive_ping.c
 
 SRC_DIR = ./sources/
 SRC = ${addprefix $(SRC_DIR), $(SRC_NAME)}
@@ -69,7 +67,7 @@ sclean: clean
 
 $(NAME): ./auteur $(OBJ_DIR) $(OBJ) $(HEADER)
 	@$(CC) $(FLAGS) $(OBJ) $(LIB) -o $(NAME) -I$(HEADER_DIR) -I$(LIB_DIR)
-	@echo "\033[31m### PING successfully compilated ###\033[0m"
+	@echo "\033[31m### SPAM successfully compilated ###\033[0m"
 
 $(OBJ_DIR):
 	@clear
