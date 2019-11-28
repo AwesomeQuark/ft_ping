@@ -1,5 +1,6 @@
-#include "ft_ping.h"
+#include "spam.h"
 
+// Standart packet checksum calculation for IP protocol
 static inline uint16_t ip_checksum(void* vdata, size_t length)
 {
 	char*		data;
@@ -30,19 +31,24 @@ static inline uint16_t ip_checksum(void* vdata, size_t length)
 	return htons(~acc);
 }
 
-unsigned long	send_packet(int socket)
+bool	send_packet(int socket)
 {
 	struct icmp	packet;
 	struct timeval timeout;
 
+	// Define timeout
 	timeout.tv_sec = 0;
 	timeout.tv_usec = 1000;
 	setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+
+	// Forge packet
 	ft_bzero(&packet, sizeof(packet));
 	packet.icmp_type = ICMP_TYPE;
 	packet.icmp_code = ICMP_CODE;
 	packet.icmp_cksum = ip_checksum(&packet, sizeof(packet));
+	
+	// Send it
 	if (!(send(socket, &packet, sizeof(packet), 0)))
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 } 

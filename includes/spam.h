@@ -5,6 +5,7 @@
 # include <sys/types.h>
 # include <netdb.h>
 # include <unistd.h> 
+# include <string.h>
 # include <printf.h>
 # include <arpa/inet.h>
 # include <stdbool.h>
@@ -29,10 +30,10 @@ typedef struct	s_statistic
 
 extern t_statistic stats;
 
-bool				establish_connexion(int *sock, char *service, char *ip);
-void				ping_loop(int socket, char *ip);
-void				statistics(int signo);
-unsigned long		send_packet(int socket);
-void				sig_handler(void);
+bool	establish_connexion(int *sock, char *service, char *ip);
+void	loop(int socket);
+void	statistics(int signo);
+bool	send_packet(int socket);
+void	sig_handler(void);
 
 #endif

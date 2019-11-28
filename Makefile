@@ -1,23 +1,11 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: conoel <conoel@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/01/10 21:14:13 by conoel            #+#    #+#              #
-#    Updated: 2019/07/11 06:33:20 by conoel           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = spam
 AUTEUR = "conoel"
 
 SRC_NAME =	main.c\
 			connect.c\
-			ping.c\
+			loop.c\
+			send.c\
 			statistics.c\
-			send_ping.c\
 
 SRC_DIR = ./sources/
 SRC = ${addprefix $(SRC_DIR), $(SRC_NAME)}
@@ -27,8 +15,8 @@ OBJ_DIR = ./objects/
 OBJ = ${addprefix $(OBJ_DIR), $(OBJ_NAME)}
 
 HEADER_DIR = ./includes/
-HEADER_NAME = ft_ping.h\
-	      conf.h
+HEADER_NAME =	spam.h\
+	      		conf.h
 HEADER = ${addprefix $(HEADER_DIR), $(HEADER_NAME)}
 
 LIB_NAME = haflib.a
@@ -36,7 +24,9 @@ LIB_DIR = ./haflib/
 LIB_HEADER = ./haflib/includes/
 LIB = ${addprefix $(LIB_DIR), $(LIB_NAME)}
 
-#FLAGS = -Wall -Werror -Wextra -Ofast#-g3 -fsanitize=address
+FLAGS = -Ofast
+FLAGS += -Weverything
+#FLAGS += -g3 -fsanitize=address
 CC = clang
 
 #################################################################################
@@ -45,11 +35,13 @@ CC = clang
 
 ########## GENERALS ##########
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re lre
 
 all: $(LIB) $(OBJ_DIR) $(NAME)
 
 re: fclean all
+
+lre: clean all
 
 clean:
 	@rm -rf $(OBJ_DIR)

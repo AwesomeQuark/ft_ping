@@ -1,11 +1,12 @@
-#include "ft_ping.h"
+#include "spam.h"
 
 __attribute__((noreturn))
-void	ping_loop(int socket, char *ip)
+void	loop(int socket)
 {
+	// Pretty much self-explantory
 	while (1)
 	{
-		if (send_packet(socket) == 0)
+		if (send_packet(socket) == false)
 		{
 			dprintf(2, "failed to send packet\n");
 			stats.loss++;

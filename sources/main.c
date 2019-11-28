@@ -1,4 +1,4 @@
-#include "ft_ping.h"
+#include "spam.h"
 
 t_statistic	stats;
 
@@ -14,16 +14,21 @@ int		main(int ac, char **av)
 	int			socket;
 	char		ip[INET6_ADDRSTRLEN];
 
+	// Verify arguments
 	if (ac < 2)
 	{
 		dprintf(2, USAGE);
 		return (EXIT_SUCCESS);
 	}
+
+	// Initiate shit
 	sig_handler();
 	init_stats(av[ac - 1]);
+
+	// Connect to the target
 	if (establish_connexion(&socket, stats.hostname, (char *)&ip) == false)
-	{
 		return (EXIT_FAILURE);
-	}
-	ping_loop(socket, ip);
+
+	// Launch the main loop
+	loop(socket);
 }
